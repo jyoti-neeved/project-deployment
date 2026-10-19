@@ -24,12 +24,33 @@ jobs:
           role-to-assume: arn:aws:iam::767397664253:role/GithubActionDeployRole
           aws-region: eu-north-1
 
-      - name: Verify AWS Identity
-        run: aws sts get-caller-identity
-
-      - name: Deploy to Amplify
+      - name: Package Website
         run: |
-          aws amplify start-job \
-            --app-id "d37b30nhr9899r" \
+          cd devops-portfolio
+          zip -r ../website.zip . -x ".git/*"
+
+      - name: Create Amplify Deployment
+        id: deployment
+        run: |
+          RESPONSE=$(aws amplify create-deployment \
+            --app-id d37b30nhr9899r \
             --branch-name main \
-            --job-type RELEASE
+            --output json)
+
+          echo "$RESPONSE" > deployment.json
+
+          echo "job_id=$(jq -r '.jobId // empty' deployment.json)" >> "$GITHUB_OUTPUT"
+          echo "upload_url=$(jq -r '.zipUploadUrl' deployment.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Website ZIP
+        run: |
+          curl --fail --silent --show-error \
+            -T website.zip \
+            "${{ steps.deployment.outputs.upload_url }}"
+
+      - name: Start Amplify Deployment
+        run: |
+          aws amplify start-deployment \
+            --app-id d37b30nhr9899r \
+            --branch-name main \
+            --job-id "${{ steps.deployment.outputs.job_id }}"
