@@ -21,8 +21,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${ secrets.'arn:aws:iam::767397664253:role/GithubActionDeployRole' }
-          aws-region: ${ vars.eu-north-1 }
+          role-to-assume: arn:aws:iam::767397664253:role/GithubActionDeployRole
+          aws-region: eu-north-1
 
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
@@ -30,6 +30,6 @@ jobs:
       - name: Deploy to Amplify
         run: |
           aws amplify start-job \
-            --app-id "${{ vars.d37b30nhr9899r }}" \
+            --app-id "d37b30nhr9899r" \
             --branch-name main \
             --job-type RELEASE
