@@ -1,4 +1,5 @@
-name: Build and Deploy Static Website to AWS Amplify
+
+name: Deploy Website to AWS Amplify
 
 on:
   push:
@@ -7,85 +8,29 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
   id-token: write
-
-concurrency:
-  group: amplify-manual-deploy-main
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Validate required website files
-        run: |
-          test -f index.html
-          test -f styles.css
-          test -f script.js
-          echo "Required website files found."
-
-      - name: Package static website
-        run: |
-          mkdir -p dist
-          cp index.html styles.css script.js dist/
-          cd dist
-          zip -r ../website.zip .
-          cd ..
-          test -s website.zip
-
-      - name: Configure AWS credentials using GitHub OIDC
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.arn:aws:iam::767397664253:role/GithubActionDeployRole }}
+          aws-region: ${{ vars.eu-north-1 }}
 
-      - name: Create Amplify manual deployment
-        id: create-deployment
-        env:
-          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
-          AMPLIFY_BRANCH: ${{ vars.AMPLIFY_BRANCH }}
-        run: |
-          RESPONSE=$(aws amplify create-deployment \
-            --app-id "$AMPLIFY_APP_ID" \
-            --branch-name "$AMPLIFY_BRANCH" \
-            --output json)
-          echo "$RESPONSE" > deployment-response.json
-          ZIP_UPLOAD_URL=$(jq -r '.zipUploadUrl' deployment-response.json)
-          JOB_ID=$(jq -r '.jobId' deployment-response.json)
-          test "$ZIP_UPLOAD_URL" != "null"
-          test "$JOB_ID" != "null"
-          echo "zip_upload_url=$ZIP_UPLOAD_URL" >> "$GITHUB_OUTPUT"
-          echo "job_id=$JOB_ID" >> "$GITHUB_OUTPUT"
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
 
-      - name: Upload website archive to Amplify
-        env:
-          ZIP_UPLOAD_URL: ${{ steps.create-deployment.outputs.zip_upload_url }}
+      - name: Deploy to Amplify
         run: |
-          curl --fail --silent --show-error \
-            --request PUT \
-            --upload-file website.zip \
-            "$ZIP_UPLOAD_URL"
-
-      - name: Start Amplify deployment
-        env:
-          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
-          AMPLIFY_BRANCH: ${{ vars.AMPLIFY_BRANCH }}
-          JOB_ID: ${{ steps.create-deployment.outputs.job_id }}
-        run: |
-          aws amplify start-deployment \
-            --app-id "$AMPLIFY_APP_ID" \
-            --branch-name "$AMPLIFY_BRANCH" \
-            --job-id "$JOB_ID"
-
-      - name: Show deployment tracking details
-        env:
-          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
-          AMPLIFY_BRANCH: ${{ vars.AMPLIFY_BRANCH }}
-          JOB_ID: ${{ steps.create-deployment.outputs.job_id }}
-        run: |
-          echo "Amplify accepted deployment job: $JOB_ID"
-          echo "Open AWS Amplify Console to monitor deployment status."
+          aws amplify start-job \
+            --app-id "${{ vars.d37b30nhr9899r }}" \
+            --branch-name main \
+            --job-type RELEASE
