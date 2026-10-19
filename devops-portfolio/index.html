@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DevOps engineer portfolio showcasing cloud, automation, containers, and CI/CD projects.">
+  <title>Jyoti Parmar | Cloud & DevOps Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Home">JP<span>.</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <nav id="navLinks" class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> CLOUD • AUTOMATION • RELIABILITY</p>
+        <h1>Building reliable systems, <span>one deployment at a time.</span></h1>
+        <p class="hero-text">Hi, I'm Jyoti — an aspiring Cloud & DevOps Engineer learning to automate infrastructure, improve delivery workflows, and run applications reliably.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#projects">Explore my projects <span aria-hidden="true">↗</span></a>
+          <a class="button secondary" href="#contact">Let's connect</a>
+        </div>
+        <div class="hero-meta"><span>Based in India</span><span>•</span><span>Always learning</span></div>
+      </div>
+      <div class="terminal-card" aria-label="Example deployment pipeline">
+        <div class="terminal-top"><div class="window-dots"><i></i><i></i><i></i></div><span>deploy.yml</span><span class="terminal-badge">● pipeline</span></div>
+        <div class="terminal-body">
+          <p><span class="line-no">01</span> <span class="code-purple">name:</span> <span class="code-green">Deploy portfolio</span></p>
+          <p><span class="line-no">02</span> <span class="code-purple">on:</span> push</p>
+          <p><span class="line-no">03</span> <span class="code-purple">jobs:</span></p>
+          <p><span class="line-no">04</span> &nbsp; <span class="code-blue">build-and-deploy:</span></p>
+          <p><span class="line-no">05</span> &nbsp; &nbsp; <span class="code-purple">steps:</span></p>
+          <p class="pipeline-step"><span class="check">✓</span> Checkout source code</p>
+          <p class="pipeline-step"><span class="check">✓</span> Validate website files</p>
+          <p class="pipeline-step"><span class="check">✓</span> Package static website</p>
+          <p class="pipeline-step"><span class="pending">◌</span> Deploy to AWS Amplify</p>
+          <div class="terminal-footer"><span>main</span><span>● automated workflow</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Technology areas">
+      <span>LINUX</span><span>AWS</span><span>DOCKER</span><span>KUBERNETES</span><span>TERRAFORM</span><span>CI/CD</span>
+    </section>
+
+    <section class="section content-section" id="about">
+      <div class="section-heading"><p class="eyebrow">01 / ABOUT</p><h2>Curiosity turned into <span>hands-on practice.</span></h2></div>
+      <div class="about-grid">
+        <p class="large-copy">I enjoy understanding how applications move from a developer's laptop to a reliable cloud environment.</p>
+        <p class="muted-copy">My learning approach is practical: build small projects, automate repetitive steps, investigate failures, and document what I learn. I'm currently strengthening my skills in cloud infrastructure, containers, and CI/CD.</p>
+      </div>
+    </section>
+
+    <section class="section content-section" id="skills">
+      <div class="section-heading"><p class="eyebrow">02 / TOOLKIT</p><h2>Tools I practice with.</h2><p class="muted-copy">Edit these skills to reflect your real experience and comfort level.</p></div>
+      <div class="skill-grid">
+        <article class="skill-card"><span class="skill-icon">☁</span><h3>Cloud</h3><p>AWS · EC2 · S3 · IAM · Amplify</p></article>
+        <article class="skill-card"><span class="skill-icon">⌘</span><h3>Automation</h3><p>Git · GitHub · GitHub Actions · Jenkins</p></article>
+        <article class="skill-card"><span class="skill-icon">▦</span><h3>Containers</h3><p>Docker · Kubernetes · Docker Compose</p></article>
+        <article class="skill-card"><span class="skill-icon">⌁</span><h3>Infrastructure</h3><p>Terraform · Linux · Shell scripting</p></article>
+      </div>
+    </section>
+
+    <section class="section content-section" id="projects">
+      <div class="section-heading"><p class="eyebrow">03 / SELECTED WORK</p><h2>Learning by <span>building.</span></h2></div>
+      <div class="project-grid">
+        <article class="project-card">
+          <div class="project-number">PROJECT 01</div><div class="project-art art-one"><span>CI</span><span class="art-arrow">→</span><span>CD</span></div>
+          <h3>Automated Website Deployment</h3>
+          <p>A static portfolio deployed to AWS Amplify by a GitHub Actions workflow using temporary AWS credentials.</p>
+          <div class="tags"><span>GitHub Actions</span><span>AWS Amplify</span><span>OIDC</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-number">PROJECT 02</div><div class="project-art art-two"><span>☁</span><span class="art-arrow">↔</span><span>⚙</span></div>
+          <h3>Cloud Infrastructure Practice</h3>
+          <p>Practice designing cloud resources, understanding access permissions, and keeping infrastructure configuration repeatable.</p>
+          <div class="tags"><span>AWS</span><span>IAM</span><span>Terraform</span></div>
+        </article>
+        <article class="project-card">
+          <div class="project-number">PROJECT 03</div><div class="project-art art-three"><span>▣</span><span class="art-arrow">→</span><span>▤</span></div>
+          <h3>Container Workflow Lab</h3>
+          <p>Practice packaging applications into containers and learning the basics of deployment, networking, and troubleshooting.</p>
+          <div class="tags"><span>Docker</span><span>Kubernetes</span><span>Linux</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section section" id="contact">
+      <p class="eyebrow">04 / CONTACT</p>
+      <h2>Have a project or opportunity?</h2>
+      <p class="muted-copy">Replace the example email below with your professional email address.</p>
+      <a class="button primary" href="mailto:your.email@example.com">your.email@example.com <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand" href="#home">JP<span>.</span></a><p>Built with HTML, CSS and JavaScript.</p><p>© <span id="year"></span> Jyoti Parmar</p></footer>
+</body>
+</html>
