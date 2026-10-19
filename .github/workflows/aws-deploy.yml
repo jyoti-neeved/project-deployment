@@ -1,0 +1,36 @@
+
+name: Deploy Website to AWS Amplify
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.arn:aws:iam::767397664253:role/GithubActionDeployRole }}
+          aws-region: ${{ vars.eu-north-1 }}
+
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
+
+      - name: Deploy to Amplify
+        run: |
+          aws amplify start-job \
+            --app-id "${{ vars.d37b30nhr9899r }}" \
+            --branch-name main \
+            --job-type RELEASE
